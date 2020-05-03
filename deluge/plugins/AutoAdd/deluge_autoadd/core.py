@@ -351,7 +351,7 @@ class Core(CorePluginBase):
 
     def on_update_watchdir_error(self, failure, watchdir_id):
         """Disables any watch folders with un-handled exceptions."""
-        self.disable_watchdir(watchdir_id)
+        #self.disable_watchdir(watchdir_id)
         log.error(
             'Disabling "%s", error during update: %s',
             self.watchdirs[watchdir_id]['path'],
@@ -364,7 +364,7 @@ class Core(CorePluginBase):
         # Enable the looping call
         if w_id not in self.update_timers or not self.update_timers[w_id].running:
             self.update_timers[w_id] = LoopingCall(self.update_watchdir, w_id)
-            self.update_timers[w_id].start(5).addErrback(
+            self.update_timers[w_id].start(20).addErrback(
                 self.on_update_watchdir_error, w_id
             )
         # Update the config
